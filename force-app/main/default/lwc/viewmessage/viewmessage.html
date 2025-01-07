@@ -1,0 +1,106 @@
+<template>
+    <lightning-card title="View Messages" icon-name="utility:comments">
+        <div class="slds-m-around_medium">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <!-- Search Input -->
+                    <div class="search-container">
+                        <input type="text" class="slds-input" placeholder="Search Recipient" value={searchTerm} oninput={handleSearchChange} onblur={handleBlur}></input>
+                        <template if:true={selectedRecipient}>
+                            <div class="selected-recipient-container">
+                            <span class="selected-recipient">
+                                {selectedRecipient}
+                                <span class="remove-icon" onclick={clearSelectedRecipient}>&times;</span>
+                            </span>
+                            </div>
+                        </template>
+                        <!-- Display filtered options -->
+                        <template if:true={showOptions}>
+                            <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid">
+                                <template for:each={filteredOptions} for:item="option">
+                                    <li key={option.value} role="presentation" class="slds-listbox__item" onclick={handleOptionSelect} data-value={option.value}>
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text">{option.label}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            
+            <lightning-input type="date" class="fromdate" label="From Date" value={fromDate} onchange={handleFromDateChange}></lightning-input>
+            <lightning-input type="date" label="To Date" class="todate" value={toDate} onchange={handleToDateChange}></lightning-input>
+        <lightning-button-icon
+            icon-name="utility:refresh"
+            alternative-text="Refresh"
+            title="Refresh"
+            onclick={handleDateRefresh}
+            class="slds-m-left_x-small"
+        ></lightning-button-icon>
+        </div>
+        <lightning-datatable
+        key-field="messageId"
+        data={filteredMessages}
+        columns={columns}
+        onrowselection={handleRowSelection}
+        onrowaction={handleRowAction}
+        onrowclick={handleRowClick}>
+    </lightning-datatable>
+    <template if:true={showModal}>
+        <div class="modal-container">
+            <div class="modal-content">
+                <template for:each={pdfAttachments} for:item="attachment">
+                    <div key={attachment.Id} class="attachment-item">
+                        <div class="file-info">
+                            <p><strong>File Name:</strong> {attachment.label}</p>
+                        </div>
+                        <div class="file-actions">
+                            <a href={attachment.url} download>Download</a>
+                            <lightning-button label="Preview" 
+                            variant="brand"
+                            data-id={attachment.value}
+                            onclick={previewHandler}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+                    <template if:false={pdfAttachments.length}>
+                    <p>No attachments available</p>
+                    </template>
+            </div>
+            <footer class="modal-footer">
+                <lightning-button label="Close" onclick={closeModal}></lightning-button>
+            </footer>
+        </div>
+    <div class="backdrop"></div>
+</template>
+        <!-- Modal for displaying message content -->
+        <template if:true={showModalopen}>
+    <div class="modal-container">
+        <div class="modal-content">
+            <div class="modal-header slds-p-around_x-small">
+                <h4 class="slds-text-heading_small slds-hyphenate">Message From {messagefromName}</h4>
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={Modalclose}>
+                    
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+            <div class="modal-body slds-p-around_medium">
+                <div class="message-box">
+                    {selectedMessageContent}
+                </div>
+            </div>
+        </div>
+        <footer class="modal-footer">
+            <lightning-button label="Close" onclick={Modalclose}></lightning-button>
+        </footer>
+    </div>
+    <div class="backdrop"></div>
+</template> 
+    </lightning-card>
+    
+</template>

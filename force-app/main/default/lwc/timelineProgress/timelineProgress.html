@@ -1,0 +1,26 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 01-05-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <template if:true={isEnabled}>
+    <div class="progress-container">
+        <template if:true={stages}>
+            <template for:each={stages} for:item="stage">
+                <div key={stage.name} class="progress-ring-item">
+                    <lightning-progress-ring value={stage.value} size="large" variant="base-autocomplete">
+                        <span class="ring-status">({stage.value}%)</span>
+                        <lightning-icon icon-name="custom:custom85" alternative-text="Progress"></lightning-icon>
+                    </lightning-progress-ring>
+                    <span class="ring-label">{stage.name}</span>
+                </div>
+            </template>
+        </template>
+        <template if:false={stages}>
+            <p>No stages to display</p>
+        </template>
+    </div>
+</template>

@@ -10,7 +10,12 @@ public without sharing class GenericLogProvider {
     @return Boolean
     ***********************************************************************************************/
     public static List<General_Settings__mdt> getCurrentEnvironmentSettings() {
-        return (General_Settings__mdt.getAll().values());
+        List<General_Settings__mdt> lstValues = new List<General_Settings__mdt>();
+        map<string,General_Settings__mdt> mapGeneralSetting = General_Settings__mdt.getAll();
+        for(string settingName:mapGeneralSetting.keySet()){
+            lstValues.add(mapGeneralSetting.get(settingName));
+        }
+        return lstValues;
     }
     /**********************************************************************************************
     * @Author:        
@@ -45,7 +50,7 @@ public without sharing class GenericLogProvider {
             exceptionLogList.add(exceptionLogObj);
             COM_DatabaseOperationsUtility.insertOperation(exceptionLogList, GenericLogger.class.toString(), false);
         } catch (Exception ex) {
-            System.debug('Error logging exception: ' + ex.getMessage());
+            GenericLogger.exceptionLog('GenericLogProvider','insertExceptionAtLogObject',  ex);
         }
     }
 

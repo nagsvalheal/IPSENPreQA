@@ -1,0 +1,50 @@
+.attachment-box {
+    display: flex;
+    align-items: center;
+}
+
+.viewButton,
+.RemoveButton {
+    margin-right: 10px; /* Adjust the margin as needed */
+    padding-left: 20px;
+}
+.slds-box {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    margin-bottom: 10px;
+    display: flex; /* Use Flexbox */
+    align-items: center; /* Align items vertically */
+}
+.attachment-info {
+    flex: 1;  /* Allow filename text to grow and push buttons to the end */
+}
+
+.attachment-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right end */
+}
+.search-container {
+    position: relative;
+}
+
+.selected-recipient{
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border-radius: 0.25rem;
+    border-top-left-radius: 0.35rem;
+    border-bottom-left-radius: 0.35rem;
+    height: 30px;
+    width: 542px;
+}
+
+.selected-recipient .remove-icon {
+    cursor: pointer;
+    margin-right: 0.5rem;
+    position: absolute; /* Position the remove icon absolutely within the container */
+    left: 515px; /* Adjust the left position to move the icon to the left */
+    top: 50%; /* Position the icon vertically centered */
+    transform: translateY(-50%); /* Center the icon vertically */
+}

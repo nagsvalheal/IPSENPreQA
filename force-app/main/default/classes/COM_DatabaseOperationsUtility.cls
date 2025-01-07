@@ -3,7 +3,7 @@
  * History:
  * Version  Author      Date            Detail          Description
  * 1.0      Harish     25-Nov-2024     Created         Initial development.
-
+ * 1.1      Abinsha    12-17-2024      updated          param name.
  */
 public inherited sharing class COM_DatabaseOperationsUtility {
 	private static Database.SaveResult[] insertResults;
@@ -118,7 +118,7 @@ public static List<Database.DeleteResult> deleteOperation(List<SObject> records,
  * @description Deletes a list of SObjects in either user mode or system mode.
  *
  * @param records The list of SObject records to delete.
- * @param className The name of the class invoking this method, typically used for logging or debugging purposes.
+ * @param orAllNull The name of the class invoking this method, typically used for logging or debugging purposes.
  * @param userModeLevel A boolean indicating whether to use user mode (`true`) or system mode (`false`) for the delete operation.
  * @return A list of Database.DeleteResult objects, representing the results of the delete operation.
  * @throws DMLException If the delete operation fails, an exception is thrown with an appropriate error message.
@@ -133,7 +133,6 @@ public static List<Database.DeleteResult> deleteOperationForBatch(List<SObject> 
 	} catch(DMLException ex) {
 		throw new DMLException(ex.getMessage());
 	}
-	
 	return deleteResults;
 }
 

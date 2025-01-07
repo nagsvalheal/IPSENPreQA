@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>EFaxCalloutService</members>
+        <members>EFaxInboundNotificationWebservice</members>
+        <members>EFaxOutboundNotificationWebservice</members>
+        <members>InboundFaxEventTriggerHandler</members>
+        <members>J_SendMessageController</members>
+        <members>J_SendFaxLwc</members>
+        <members>J_SendMessage</members>
+        <members>J_SendFaxLwcHandler</members>
+        <members>J_SendFaxRelatedHandler</members>
+        <members>EmailMessageTriggerHandler</members>
+        <members>J_Email_Data_TriggerHandler</members>
+        <members>J_Received_Fax_TriggerHandler</members>
+        <name>ApexClass</name>
+    </types>
+    <version>62.0</version>
+</Package>

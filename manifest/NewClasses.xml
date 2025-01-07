@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>J_CarePreauthTriggerHandler</members>
+        <members>J_ConsentMetadataUtility</members>
+        <members>J_TeamShareRecordsHelper</members>
+        <members>J_TeamSharingDeletionHelper</members>
+        <members>J_ShareRecordInsertionHelper</members>
+        <members>J_DeleteSharingRecordsHelper</members>
+        <members>J_TimelineController</members>
+        <members>J_CreateTasksForPriorAuthorization</members>
+        <members>J_CreateTasksForExpiringCoverageBenefit</members>
+        <members>J_CreateTasksSchedulerCoverage</members>
+        <members>J_CreateTasksSchedulerPriAuth</members>
+        <members>J_CareProgramEnrolleeCaseHandler</members>
+        <members>J_PapCheckEnrollmentFormHandler</members>
+        <name>ApexClass</name>
+    </types>
+    <version>62.0</version>
+</Package>

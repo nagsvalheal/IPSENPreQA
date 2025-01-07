@@ -1,0 +1,35 @@
+.progress-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+	height: 100%;
+}
+
+.progress-ring-item {
+    margin: 10px;
+    text-align: center;
+    width: 80px; /* Adjust width as per your requirement */
+}
+
+.ring-label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+
+.ring-status {
+    display: none; /* Hidden by default */
+    color: gray;
+    margin-left: 10px;
+}
+
+.progress-ring-item:hover .ring-status {
+    display: inline-block;
+}
+
+.lightning-progress-ring {
+    cursor: pointer; /* Indicates interactivity */
+}

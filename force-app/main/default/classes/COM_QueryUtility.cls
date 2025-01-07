@@ -147,7 +147,11 @@
         // Execute the query and return the results
         return Database.query(queryString);
     }
-
+    /**
+     * @description buildWhereClause
+     * @param stringList set of strings. 
+     * @return returns a string finalString.
+     */
     public static String buildWhereClause(set<String> stringList){
         String finalString = '';
         for(String single : stringList){

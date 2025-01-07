@@ -1,0 +1,73 @@
+<template>
+    <lightning-card title="Compose Message" icon-name="utility:edit">
+        <div class="slds-m-around_medium">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <!-- Search Input -->
+                    <div class="search-container">
+                        <input type="text" class="slds-input" placeholder="Search Recipient" value={searchTerm} oninput={handleSearchChange} onblur={handleBlur}></input>
+                         <div if:true={showRecipientValidationMessage} class="slds-text-color_error slds-m-top_x-small">Complete this field</div>
+                        <template if:true={selectedRecipient}>
+                            <span class="selected-recipient">{selectedRecipient}<span class="remove-icon" onclick={clearSelectedRecipient}>&times;</span></span>
+                        </template>
+                        <!-- Display filtered options -->
+                        <template if:true={showOptions}>
+                            <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid">
+                                <template for:each={filteredOptions} for:item="option">
+                                    <li key={option.value} role="presentation" class="slds-listbox__item" onclick={handleOptionSelect} data-value={option.value}>
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text">{option.label}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Message Input -->
+            <lightning-textarea label="Message" value={message} onchange={handleMessageChange} maxlength={maxCharacters}></lightning-textarea>
+            
+            <!-- Display validation messages -->
+            <template if:true={showValidationMessage}>
+                <div class="slds-text-color_error">Please enter a message.</div>
+            </template>
+            <template if:true={showMaxLengthValidation}>
+                <div class="slds-text-color_error">Message cannot exceed {maxCharacters} characters.</div>
+            </template>
+            
+            <!-- Attach Documents -->
+            <div class="slds-m-top_medium">
+                <lightning-file-upload
+                    label="Attach Documents"
+                    name="fileUploader"
+                    accept={acceptedFormats}
+                    record-id={myRecordId}
+                    onuploadfinished={handleUploadFinished}
+                    multiple>
+                </lightning-file-upload>
+                
+                <!-- Display attached files -->
+                <template if:true={attachmentIds}>
+                    <template for:each={attachmentIds} for:item="attachment">
+                        <div key={attachment.id} class="slds-box attachment-box">
+                            <div class="attachment-info">
+                                <p>{attachment.name}</p>
+                            </div>
+                            <div class="attachment-buttons">  
+                                <lightning-icon icon-name="utility:preview" class="viewButton" variant="brand" alternative-text="Preview" data-id={attachment.id} onclick={previewHandler}></lightning-icon>
+                                <lightning-icon icon-name="utility:delete" class="RemoveButton" variant="destructive" alternative-text="Remove" onclick={handleRemoveFile} data-id={attachment.id}></lightning-icon>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+            
+            <!-- Send Button -->
+            <lightning-button label="Send Message" class="sendData" onclick={sendData} variant="brand"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

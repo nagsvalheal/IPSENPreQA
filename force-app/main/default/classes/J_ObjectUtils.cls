@@ -133,12 +133,17 @@ public without sharing class J_ObjectUtils {
         }
         return null;
    }  
-     /**
-        * @description Retrieves the Record Type Id for a given object and record type developer name.
-        * @param sObjectType The API name of the SObject type (e.g., 'Contact').
-        * @param developerName The Developer Name of the record type (e.g., 'Physician').
-        * @return The Record Type Id as an Id.
-        */
+   /**
+ * @method         getRecordTypeId
+ * @description    Retrieves the Record Type ID for a given SObject type and DeveloperName. 
+ *                 Caches the Record Type ID for subsequent retrievals to improve performance.
+ * @param          developerName The DeveloperName of the Record Type to retrieve.
+ * @param          sObjectType The name of the SObject to which the Record Type belongs.
+ * @return         The ID of the Record Type matching the specified DeveloperName and SObjectType.
+ * @throws         IllegalArgumentException If the specified Record Type is not found or an error occurs during retrieval.
+ * @example        Id recordTypeId = getRecordTypeId('Journeys_Payer', 'Account');
+ *                 // Retrieves and caches the Record Type ID for the 'Journeys_Payer' Record Type on the Account object.
+ */
         public static Id getRecordTypeId(String developerName, String sObjectType) {
             String recordTypeCombination = sObjectType + '_' + developerName;
         

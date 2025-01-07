@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <assignments>
+        <description>If AE status is not reported set false.</description>
+        <name>Assign_Attachment_Flag_False</name>
+        <label>Assign Attachment Flag False</label>
+        <locationX>314</locationX>
+        <locationY>1127</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Attachment_chek__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>If AE status is reported set true.</description>
+        <name>Assign_Attachment_Flag_True</name>
+        <label>Assign Attachment Flag True</label>
+        <locationX>50</locationX>
+        <locationY>1127</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Attachment_chek__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Assign Content Document ID</description>
+        <name>Assign_Content_Doc_ID</name>
+        <label>Assign Content Doc ID</label>
+        <locationX>270</locationX>
+        <locationY>719</locationY>
+        <assignmentItems>
+            <assignToReference>ContentDocID</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Doc_Link.ContentDocumentId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Doc_Link</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <description>store recordType Name</description>
+        <name>AE_and_PQC</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>AE_and_PQC</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <description>store case as a value.</description>
+        <name>case</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Case</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>Check enrollelment form for status is reported</description>
+        <name>check_enrollelment_form</name>
+        <label>check enrollelment form</label>
+        <locationX>182</locationX>
+        <locationY>1019</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Attachment_Flag_False</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>File_not_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.J_AE_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Reported</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Content_Document</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Attachment_Flag_True</targetReference>
+            </connector>
+            <label>File not Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Status Change record update</description>
+        <name>check_RecordTypeId</name>
+        <label>check RecordTypeId</label>
+        <locationX>380</locationX>
+        <locationY>395</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>check_if_RecordTypeId_endswith_correctly</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>getRecordTypeId.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Content_Document_Link</targetReference>
+            </connector>
+            <label>check if RecordTypeId endswith correctly</label>
+        </rules>
+    </decisions>
+    <description>check AE attachment and do validation.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>DateForumla</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>GetEnrolleeID</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Care_Program_Enrollee__r.Enrollee_ID__c}  +&apos; - AE&apos;</expression>
+    </formulas>
+    <interviewLabel>AE attachment Check {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AE attachment Check</label>
+    <loops>
+        <description>Iterate Document Link Records</description>
+        <name>Loop_Doc_Link</name>
+        <label>Loop Doc Link</label>
+        <locationX>182</locationX>
+        <locationY>611</locationY>
+        <collectionReference>Get_Content_Document_Link</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Content_Doc_ID</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Content_Document</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Fetch Content Document Records</description>
+        <name>Get_Content_Document</name>
+        <label>Get Content Document</label>
+        <locationX>182</locationX>
+        <locationY>911</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>check_enrollelment_form</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>ContentDocID</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Title</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetEnrolleeID</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContentDocument</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Fetch Content Document Link</description>
+        <name>Get_Content_Document_Link</name>
+        <label>Get Content Document Link</label>
+        <locationX>182</locationX>
+        <locationY>503</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Doc_Link</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>LinkedEntityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ContentDocumentLink</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>fetch Record Type Id</description>
+        <name>getRecordTypeId</name>
+        <label>getRecordTypeId</label>
+        <locationX>380</locationX>
+        <locationY>287</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>check_RecordTypeId</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>case</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>AE_and_PQC</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>254</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>getRecordTypeId</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>ContentDocID</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

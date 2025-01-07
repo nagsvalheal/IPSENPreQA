@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="File Upload" icon-name="custom:custom14">
+        <template if:true={fileExists}>
+            <table class="slds-table slds-table_bordered">
+                <tbody>
+                    <template for:each={lstOption} for:item="option">
+                        <tr class="slds-hint-parent" key={option.recordID}>
+
+                            <td>
+                                
+                                <lightning-button-icon icon-name="utility:delete"    
+                                alternative-text="Delete"   
+                                class="slds-m-left_xx-small" 
+                                title="Delete"
+                                value={option.recordID}
+                                onclick={handleDelete}></lightning-button-icon>           
+                                
+                            </td>
+
+                            <td data-label="Name">
+                                <span class="slds-icon_container slds-icon-doctype-xml" title="Description of icon when needed">
+                                    <svg class="slds-icon">
+                                      <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#xml"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Description of icon when needed</span>
+                                </span>
+                                <a href={option.fileURL} target="_blank">{option.fileName} </a>
+                            </td>
+
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+        <template if:true={showLoading}>
+            <div class="loaderHolder">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </template>        
+        <div class="slds-m-around_medium">
+            <lightning-input type="file" 
+            accept=".pdf"
+            label="Attachment" onchange={openfileUpload}></lightning-input>
+        </div>
+        <template if:true={fileData}>
+            <p>{fileData.filename}</p>
+        </template>
+        <template if:true={showSubmit}>
+            <lightning-button variant="brand" label="Submit" title="Submit" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+        </template>
+            
+    </lightning-card>
+</template>

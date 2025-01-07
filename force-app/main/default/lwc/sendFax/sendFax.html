@@ -1,0 +1,204 @@
+<template>
+    
+    <div style="border: 1px solid #d8dde6; padding: 10px;">
+    <lightning-card title="Send Fax" icon-name="custom:custom105">
+
+        <div class="slds-section slds-is-open">
+<h3 class="slds-section__title slds-theme_shade">
+<span class="slds-truncate slds-p-horizontal_small" title="Section Title">Fax Info</span>
+</h3>
+<div class="slds-section__content">
+
+</div>
+</div>
+
+        <lightning-layout>
+            
+        
+        
+            <lightning-layout-item flexibility="auto" padding="around-small"> 
+                
+                <div>
+                    <div class="slds-m-around_medium" style="text-align: left;">
+            <strong>Enrollee Name: </strong>{enrolleeName}
+        </div> 
+                    <b><lightning-input
+                        label="From"
+                        value={cpFaxNum}
+                        style="width: 193px;"
+                        readonly
+                        
+                    ></lightning-input></b>
+                    </div> 
+            <b><lightning-combobox
+                name="recipient"
+                label="Recipient"
+                value={selectedValue}
+                placeholder="--Please Select--"
+                options={options}
+                onchange={handleChange}
+                class="slds-size_x-small"
+                required
+            ></lightning-combobox></b>
+            <template if:true={showInputBox}>
+                <lightning-input
+                    label="To"
+                    value={inputValue}
+                    onchange={handleInputChange}
+                    style="width: 193px;"
+                    data-field="email"
+                    required
+                ></lightning-input>
+                <template if:true={isInputValueNull}>
+    <div class="error-message" style="color: red;">Fax number not found.</div>
+  </template>
+            </template>
+
+    </lightning-layout-item>
+    </lightning-layout>
+
+    <div class="slds-section slds-is-open">
+<h3 class="slds-section__title slds-theme_shade">
+<span class="slds-truncate slds-p-horizontal_small" title="Section Title">Files</span>
+</h3>
+<div class="slds-section__content">
+
+</div>
+</div>
+
+        <lightning-card title="Related Files">
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto">
+                    <template if:true={relatedFiles}>
+                        <ul>
+                            <template for:each={relatedFiles} for:item="file">
+                                <li key={file.Id}>
+                                    <div>
+                                        <lightning-input type="checkbox" name={file.Id} label={file.Title} onchange={handleFileSelection} data-fileid={file.Id}></lightning-input>
+                                        <a href="#" data-fileid={file.Id} onclick={openFileInNewTab} class="slds-m-left_x-small">View File</a>
+                                        <span>-{file.FileType}</span>
+                                        <span>-{file.ContentSize} KB</span>
+                                    </div>
+                                </li>
+                            </template>
+                            
+                        </ul>
+                    </template>
+                   <template if:false={relatedFiles}>
+                        No related files found.
+                    </template>
+                </lightning-layout-item>
+                 
+            </lightning-layout>
+        </lightning-card>
+        
+        <template if:true={isCareProgramEnrollee}>
+        <lightning-card title="Coverage Benefit Files" if:true={objectApiName}>
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto">
+                    <template if:true={getCBenefitFiles}>
+                        <ul>
+                            <template for:each={getCBenefitFiles} for:item="file">
+                                <li key={file.Id}>
+                                    <div>
+                                        <lightning-input type="checkbox" name={file.Id} label={file.Title} onchange={handleFileSelection} data-fileid={file.Id}></lightning-input>
+                                        <a href="#" data-fileid={file.Id} onclick={openFileInNewTab} class="slds-m-left_x-small">View File</a>
+                                        <span>-{file.FileType}</span>
+                                        <span>-{file.ContentSize} KB</span>
+                                    </div>
+                                </li>
+                            </template>
+                            
+                        </ul>
+                        
+                    </template>
+                    <template if:false={getCBenefitFiles}>
+                        No files found.
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+    </template>
+
+
+    <template if:true={isCareProgramEnrollee}>
+        <lightning-card title="Consent Files">
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto">
+                    <template if:true={getConsentFiles}>
+                        <ul>
+                            <template for:each={getConsentFiles} for:item="file">
+                                <li key={file.Id}>
+                                    <div>
+                                        <lightning-input type="checkbox" name={file.Id} label={file.Title} onchange={handleFileSelection} data-fileid={file.Id}></lightning-input>
+                                        <a href="#" data-fileid={file.Id} onclick={openFileInNewTab} class="slds-m-left_x-small">View File</a>
+                                        <span>-{file.FileType}</span>
+                                        <span>-{file.ContentSize} KB</span>
+                                    </div>
+                                </li>
+                            </template>
+                            
+                        </ul>
+                        
+                    </template>
+                    <template if:false={getConsentFiles}>
+                        No files found.
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+    </template>
+
+        <lightning-card title="Received Fax Files">
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto">
+                    <template if:true={getRecFaxFiles}>
+                        <ul>
+                            <template for:each={getRecFaxFiles} for:item="file">
+                                <li key={file.Id}>
+                                    <div>
+                                        <lightning-input type="checkbox" name={file.Id} label={file.Title} onchange={handleFileSelection} data-fileid={file.Id}></lightning-input>
+                                        <a href="#" data-fileid={file.Id} onclick={openFileInNewTab} class="slds-m-left_x-small">View File</a>
+                                        <span>-{file.FileType}</span>
+                                        <span>-{file.ContentSize} KB</span>
+                                    </div>
+                                </li>
+                            </template>
+                            
+                        </ul>
+                        
+                    </template>
+                    <template if:false={getRecFaxFiles}>
+                        No files found.
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+
+
+        <div style="text-align: right;">
+            <lightning-button 
+            variant="brand" 
+            label="Send" 
+            title="Primary action" 
+            onclick={handleSendClick} 
+            class="slds-m-left_x-large"
+            disabled={showSpinner}
+            ></lightning-button>
+            <template if:true={showSpinner}>
+      <lightning-spinner
+        alternative-text="Loading"
+        size="medium"
+      ></lightning-spinner>
+    </template>
+        </div>
+
+        <template if:true={showSuccessMessage}>
+            <div class="slds-text-color_success slds-p-around_small">
+                Fax sent successfully!
+            </div>
+        </template>
+    </lightning-card>
+
+</div>
+</template>

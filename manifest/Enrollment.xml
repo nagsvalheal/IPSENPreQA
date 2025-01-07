@@ -29,6 +29,17 @@
         <members>ScheduleBatchDeleteExceptionLog</members>
         <members>COM_QueryUtility</members>
         <members>COM_DatabaseOperationsUtility</members>
+        <members>J_LeadMergeAccountHelper</members>
+        <members>J_LeadConsentDocumentToAttachment</members>
+        <members>J_PatientLeadInsuranceHelper</members>
+        <members>J_PatientOrHCPLead</members>
+        <members>J_LeadAccountandEnrolee</members>
+        <membersJ_patientLeadInsuranceWrapper</members>
+        <membersJ_HCPCaregiverConsentToPatient</members>
+        <membersCareProgTeamTriggerHandler</members>
+        <membersJ_ConvertCountry_State_Values</members>
+        <membersJ_CareEnrolleProductTriggerHandler</members>
+        <membersJ_CareProgramProductTriggerHandler</members>
         <name>ApexClass</name>
     </types>
     <version>62.0</version>

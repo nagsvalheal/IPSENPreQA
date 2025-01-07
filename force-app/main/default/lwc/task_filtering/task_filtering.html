@@ -1,0 +1,58 @@
+<template>
+    <div class="slds-var-m-around_medium">
+        <!-- Lightning Combobox for subject filtering -->
+        <lightning-combobox
+            label="Filter by Subject"
+            value={selectedSubject}
+            options={subjectOptions}
+            onchange={handleSubjectChange}
+            onfocus={handleComboboxFocus}
+            onblur={handleComboboxBlur}>
+        </lightning-combobox>
+
+        <!-- Table container with fixed height and scrollbar -->
+        <div class="table-container">
+            <template if:true={recordStatus}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped slds-var-m-top_medium">
+                    <!-- Table headers -->
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">Subject</th>
+                            <th scope="col">Assigned To</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Due Date</th>
+                        </tr>
+                    </thead>
+                    <!-- Table body -->
+                    <tbody>
+                        <template for:each={filteredTasks} for:item="item" for:index="index">
+                            <tr key={item.Id}>
+                                <!-- Display task details -->
+                                <td data-label="Subject">
+                                    <a onclick={navigateToRecord} data-record-id={item.Id}>{item.Subject}</a>
+                                </td>
+                                <td data-label="Assigned To">
+                                    <a onclick={navigateToRecords} data-record-id={item.Owner.Id}>{item.Owner.Name}</a>
+                                </td>
+                                <td data-label="Status">{item.Status}</td>
+                                <td data-label="Created Date">{item.formattedCreatedDate}</td>
+                                <td data-label="Due Date">{item.ActivityDate}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+        </div>
+
+        <!-- Message when no records are found -->
+        <template if:false={recordStatus}>
+            <div class="slds-var-m-top_medium">No records found</div>
+        </template>
+    </div>
+
+    <div class="slds-text-align_center" if:true={viewStatus}>
+        <a if:true={recordViewStatus} onclick={handleviewMore}>View More</a>
+        <a if:false={recordViewStatus} onclick={handleviewLess}>View Less</a>
+    </div>
+</template>

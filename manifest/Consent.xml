@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>J_ReConsentBatch</members>
+        <members>J_ReConsentScheduled</members>
+        <members>J_ExpiredConsentBatch</members>
+        <members>J_ExpiredConsentScheduled</members>
+        <members>J_ConsentExpirationDue18Batch</members>
+        <members>J_ConsentExpirationDue18Sched</members>
+        <members>J_AuthFormConsentTriggerHandler</members>
+        <name>ApexClass</name>
+    </types>
+    <version>62.0</version>
+</Package>
